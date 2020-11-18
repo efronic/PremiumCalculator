@@ -11,7 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatNativeDateModule } from '@angular/material/core';
 @NgModule({
   imports: [
     MatButtonModule,
@@ -24,6 +25,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatToolbarModule,
     MatDatepickerModule,
     MatProgressSpinnerModule,
+    MatNativeDateModule,
     MatSelectModule,
     MatProgressBarModule,
     FlexLayoutModule,
@@ -38,6 +40,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatDividerModule,
     MatToolbarModule,
     MatDatepickerModule,
+    CommonModule,
+    MatNativeDateModule,
     MatProgressSpinnerModule,
     MatSelectModule,
     MatProgressBarModule,

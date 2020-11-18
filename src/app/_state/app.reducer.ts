@@ -27,7 +27,11 @@ export function AppReducer(state = initialState, action: AppActions): AppState {
         occupations: initialState.occupations,
         isLoading: false,
       };
-
+    case ActionTypes.Submit:
+      return {
+        ...state,
+        premiums: action.payload,
+      };
     default:
       return {
         ...state,

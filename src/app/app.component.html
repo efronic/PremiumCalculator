@@ -1,124 +1,136 @@
 <section fxLayout fxLayoutAlign="center">
-  <app-loader [loading]="this.loading$ | async"></app-loader>
+  <app-loader [loading]="(this.loading$ | async) || false"></app-loader>
 
   <mat-card fxFlex="100" class="mat-elevation-z4">
-    <mat-card-header>
-      <div mat-card-avatar class="form-header-image"></div>
-      <mat-card-title>{{ title }}</mat-card-title>
-      <mat-card-subtitle>Premium Calculator</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <div fxLayout="column">
-        <div fxLayout="row" fxLayoutGap="2px" fxLayoutAlign="start center">
-          <mat-toolbar
-            ><span style="font-size: small"
-              >Premium Calculator</span
-            ></mat-toolbar
+    <form
+      [formGroup]="premiumCalculatorForm"
+      id="premiumForm"
+      fxLayout="column"
+    >
+      <mat-card-header>
+        <div mat-card-avatar class="form-header-image"></div>
+        <mat-card-title>{{ title }}</mat-card-title>
+        <mat-card-subtitle>Premium Calculator</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div fxLayout="column">
+          <div fxLayout="row" fxLayoutGap="2px" fxLayoutAlign="start center">
+            <mat-toolbar
+              ><span style="font-size: small"
+                >Premium Calculator</span
+              ></mat-toolbar
+            >
+          </div>
+          <div
+            fxLayout="row"
+            fxLayout.md="column"
+            fxLayout.sm="column"
+            fxLayout.xs="column"
+            fxLayoutGap.lg="10px"
+            fxLayoutGap.xl="10px"
           >
-        </div>
-        <div
-          fxLayout="row"
-          fxLayout.md="column"
-          fxLayout.sm="column"
-          fxLayout.xs="column"
-          fxLayoutGap.lg="10px"
-          fxLayoutGap.xl="10px"
-        >
-          <mat-form-field id="applicant" fxFlex="100" appearance="outline">
-            <mat-label>Name</mat-label>
-            <mat-icon matPrefix>person</mat-icon>
-            <input matInput formControlName="name" placeholder="Name" />
-          </mat-form-field>
-          <mat-form-field fxFlex="100" fxFlex.xs="100" appearance="outline">
-            <mat-label>Age</mat-label>
-            <mat-icon matPrefix>cake</mat-icon>
-            <input matInput disabled placeholder="Age" formControlName="age"
-          /></mat-form-field>
-        </div>
-        <div
-          fxLayout="row"
-          fxLayout.md="column"
-          fxLayout.sm="column"
-          fxLayout.xs="column"
-          fxLayoutGap.lg="10px"
-          fxLayoutGap.xl="10px"
-        >
-          <mat-form-field fxFlex="100" fxFlex.xs="100" appearance="outline">
-            <mat-label>Date of Birth</mat-label>
-            <!-- <mat-icon matPrefix>date_range</mat-icon> -->
-            <input
-              matInput
-              readonly="true"
-              [matDatepicker]="dobpicker"
-              placeholder="Date of Birth"
-              formControlName="dob"
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="dobpicker"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #dobpicker disabled="false"></mat-datepicker>
-          </mat-form-field>
-
-          <mat-form-field
-            id="occupationSelect"
-            appearance="outline"
-            fxFlex="100"
+            <mat-form-field id="applicant" fxFlex="100" appearance="outline">
+              <mat-label>Name</mat-label>
+              <mat-icon matPrefix>person</mat-icon>
+              <input matInput formControlName="name" placeholder="Name" />
+            </mat-form-field>
+            <mat-form-field fxFlex="100" fxFlex.xs="100" appearance="outline">
+              <mat-label>Age</mat-label>
+              <mat-icon matPrefix>cake</mat-icon>
+              <input
+                type="number"
+                matInput
+                placeholder="Age"
+                formControlName="age"
+            /></mat-form-field>
+          </div>
+          <div
+            fxLayout="row"
+            fxLayout.md="column"
+            fxLayout.sm="column"
+            fxLayout.xs="column"
+            fxLayoutGap.lg="10px"
+            fxLayoutGap.xl="10px"
           >
-            <mat-label>Occupation</mat-label>
-            <mat-icon matPrefix>work</mat-icon>
-            <mat-select formControlName="occupation" placeholder="Occupation">
-              <mat-option
-                *ngFor="let oc of occupations"
-                [value]="oc.occupationRating.ratingFactor"
+            <mat-form-field fxFlex="100" fxFlex.xs="100" appearance="outline">
+              <mat-label>Date of Birth</mat-label>
+              <!-- <mat-icon matPrefix>date_range</mat-icon> -->
+              <input
+                matInput
+                readonly="true"
+                [matDatepicker]="dobpicker"
+                placeholder="Date of Birth"
+                formControlName="dob"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="dobpicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #dobpicker disabled="false"></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field id="applicant" fxFlex="100" appearance="outline">
+              <mat-label>Sum Insured</mat-label>
+              <mat-icon matPrefix>attach_money</mat-icon>
+              <input
+                matInput
+                type="number"
+                formControlName="deathCoverAmount"
+                placeholder="Sum Insured"
+              />
+            </mat-form-field>
+          </div>
+          <div
+            fxLayout="row"
+            fxLayout.md="column"
+            fxLayout.sm="column"
+            fxLayout.xs="column"
+            fxLayoutGap.lg="10px"
+            fxLayoutGap.xl="10px"
+          >
+            <mat-form-field
+              id="occupationSelect"
+              appearance="outline"
+              fxFlex="100"
+            >
+              <mat-label>Occupation</mat-label>
+              <mat-icon matPrefix>work</mat-icon>
+              <mat-select
+                formControlName="occupation"
+                placeholder="Occupation"
+                (selectionChange)="onSelected($event)"
               >
-                {{ oc.occupationName }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+                <mat-option
+                  *ngFor="let oc of occupations"
+                  [value]="oc.occupationRating.ratingFactor"
+                >
+                  {{ oc.occupationName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field fxFlex="100" fxFlex.xs="100" appearance="outline">
+              <mat-label>Death Premium</mat-label>
+              <mat-icon matPrefix>cake</mat-icon>
+              <input
+                matInput
+                placeholder="Death Premium"
+                formControlName="deathPremium"
+            /></mat-form-field>
+          </div>
         </div>
-        <div
-          fxLayout="row"
-          fxLayout.md="column"
-          fxLayout.sm="column"
-          fxLayout.xs="column"
-          fxLayoutGap.lg="10px"
-          fxLayoutGap.xl="10px"
-        >
-          <mat-form-field id="applicant" fxFlex="100" appearance="outline">
-            <mat-label>Sum Insured</mat-label>
-            <mat-icon matPrefix>attach_money</mat-icon>
-            <input
-              matInput
-              type="number"
-              formControlName="deathCoverAmount"
-              placeholder="Sum Insured"
-            />
-          </mat-form-field>
-          <mat-form-field fxFlex="100" fxFlex.xs="100" appearance="outline">
-            <mat-label>Deatch Premium</mat-label>
-            <mat-icon matPrefix>cake</mat-icon>
-            <input
-              matInput
-              disabled
-              placeholder="Death Premium"
-              formControlName="deathPremium"
-          /></mat-form-field>
+      </mat-card-content>
+      <mat-card-actions
+        ><div fxLayoutAlign="center center">
+          <button
+            type="submit"
+            mat-raised-button
+            color="primary"
+            fxLayoutAlign="center center"
+            (click)="submit()"
+          >
+            Submit
+          </button>
         </div>
-      </div>
-    </mat-card-content>
-    <mat-card-actions
-      ><div fxLayoutAlign="center center">
-        <button
-          type="submit"
-          mat-raised-button
-          color="primary"
-          fxLayoutAlign="center center"
-          (click)="submit()"
-        >
-          Submit
-        </button>
-      </div>
-    </mat-card-actions>
+      </mat-card-actions>
+    </form>
   </mat-card>
 </section>

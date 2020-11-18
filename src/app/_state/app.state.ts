@@ -6,14 +6,14 @@ import { Rating } from '../_models/rating';
 export interface AppState {
   occupations: Occupation[];
   ratings: Rating[];
-  premiums: Premimum[];
+  premiums: Premimum | undefined;
   isLoading: boolean;
   error: string;
 }
 export const initialState: AppState = {
   occupations: [],
   ratings: [],
-  premiums: [],
+  premiums: undefined,
   isLoading: false,
   error: '',
 };
