@@ -1,6 +1,6 @@
 import { Rating } from './rating';
 
-export interface Occupation{
-  occupationName: string,
-  occupationRating: Rating,
-  }
+export interface Occupation {
+  occupationName: string;
+  occupationRating: Rating;
+}

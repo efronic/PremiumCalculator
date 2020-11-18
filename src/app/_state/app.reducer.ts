@@ -7,38 +7,24 @@ export function AppReducer(state = initialState, action: AppActions): AppState {
     case ActionTypes.Load:
       return {
         ...state,
-        // structure: initialState.structure,
-        // bars: initialState.bars,
-        buttons: initialState.buttons,
-        limit: initialState.limit,
+        occupations: initialState.occupations,
+        ratings: initialState.ratings,
+        premiums: initialState.premiums,
         error: initialState.error,
         isLoading: true,
       };
     case ActionTypes.LoadSuccess:
-      const limit = { ...action.payload }.limit;
       return {
         ...state,
-        // structure: { ...action.payload },
-        // bars: [
-        //   ...{ ...action.payload }.bars.map((p) => {
-        //     const newValue = Math.round(p * 100) / limit;
 
-        //     const newBar: Bar = { value: p, newValue: newValue };
-
-        //     return newBar;
-        //   }),
-        // ],
-        buttons: { ...action.payload }.buttons,
-        limit: { ...action.payload }.limit,
+        occupations: { ...action.payload },
         isLoading: false,
       };
     case ActionTypes.LoadFail:
       return {
         ...state,
-        // structure: initialState.structure,
-        // bars: initialState.bars,
-        buttons: initialState.buttons,
-        limit: initialState.limit,
+
+        occupations: initialState.occupations,
         isLoading: false,
       };
 
