@@ -5,5 +5,6 @@ export interface Premimum {
   age: number;
   dob: Date;
   occupation: Occupation;
-  deatch: number;
+  deathCoverAmount: number;
+  deathPremium: number;
 }
