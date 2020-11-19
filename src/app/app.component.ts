@@ -50,7 +50,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.formControlValueChanged();
   }
-  
+
   formControlValueChanged() {
     let selectedOccupation = this.premiumCalculatorForm.get('occupation')!;
     let selectedDeathCoverAmount = this.premiumCalculatorForm.get(

@@ -59,6 +59,7 @@ describe('AppComponent', () => {
         { provide: MatSnackBar, useValue: mockSnackBar },
       ],
     }).compileComponents();
+
     store = TestBed.inject(MockStore);
     store.overrideSelector(getIsLoading, true);
   });
@@ -75,23 +76,25 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('Premium Calculator');
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    component = fixture.componentInstance;
-    component.loading$ = loading$;
-    // pass in the form dynamically
-    component.premiumCalculatorForm = formBuilder.group({
-      name: ['', Validators.required],
-      age: ['', Validators.required],
-      dob: ['', Validators.required],
-      occupation: ['', Validators.required],
-      deathCoverAmount: ['', Validators.required],
-      deathPremium: ['', Validators.required],
+
+  describe('submit', () => {
+    it('should not submit if form is not valid', () => {
+      const fixture = TestBed.createComponent(AppComponent);
+      component = fixture.componentInstance;
+      component.loading$ = loading$;
+      component.premiumCalculatorForm = formBuilder.group({
+        name: ['', Validators.required],
+        age: ['', Validators.required],
+        dob: ['', Validators.required],
+        occupation: ['', Validators.required],
+        deathCoverAmount: ['', Validators.required],
+        deathPremium: ['', Validators.required],
+      });
+
+      component.submit();
+
+      expect(component.formIsValid).toBeFalse();
+      expect(component.submitted).toBeTrue();
     });
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain(
-      'Premium Calculator app is running!'
-    );
   });
 });
