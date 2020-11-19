@@ -2,9 +2,9 @@ import { Occupation } from './occupation';
 
 export interface Premimum {
   name: string;
-  age: number;
-  dob: Date;
-  occupation: Occupation;
+  age?: number | null;
+  dob?: Date | null;
+  occupation?: Occupation | null;
   deathCoverAmount: number;
   deathPremium: number;
 }

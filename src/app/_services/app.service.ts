@@ -31,6 +31,7 @@ export class AppService {
     ];
   }
   getOccupationsFromAPI(): Observable<Occupation[]> {
+    // if an api was used to fetch the data
     return EMPTY;
   }
 }
