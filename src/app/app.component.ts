@@ -12,6 +12,7 @@ import { Premimum } from './_models/premium';
 import { MatSelectChange } from '@angular/material/select';
 import * as fromAppState from './_state/app.state';
 import * as fromAppActions from './_state/app.actions';
+import { isNullorUndefined } from './_shared/helpers';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -46,62 +47,77 @@ export class AppComponent implements OnInit, OnDestroy {
       select(fromAppState.getIsLoading),
       takeWhile(() => this.componentActive)
     );
+
+    this.formControlValueChanged();
   }
-  onSelected(event: MatSelectChange) {
-    let selectedOccupation = event.value;
+  
+  formControlValueChanged() {
+    let selectedOccupation = this.premiumCalculatorForm.get('occupation')!;
     let selectedDeathCoverAmount = this.premiumCalculatorForm.get(
       'deathCoverAmount'
-    )!.value;
-    let selectedAge = this.premiumCalculatorForm.get('age')!.value;
-    console.log('selectedOccupation', selectedOccupation);
-    console.log('selectedDeathCoverAmount', selectedDeathCoverAmount);
-    console.log('selectedAge', selectedAge);
+    )!;
+    let selectedAge = this.premiumCalculatorForm.get('age')!;
 
-    if (
-      selectedOccupation != null &&
-      selectedDeathCoverAmount != null &&
-      selectedAge != null
-    ) {
-      this.premiumCalculatorForm.patchValue({
-        deathPremium: (
-          ((+selectedDeathCoverAmount * +selectedOccupation * +selectedAge) /
-            1000) *
-          12
-        ).toFixed(2),
+    selectedDeathCoverAmount.valueChanges
+      .pipe(takeWhile(() => this.componentActive))
+      .subscribe((mode: number) => {
+        if (
+          selectedOccupation.value &&
+          selectedAge.value &&
+          selectedDeathCoverAmount.value
+        ) {
+          this.premiumCalculatorForm.patchValue({
+            deathPremium: (
+              ((selectedDeathCoverAmount.value *
+                selectedOccupation.value *
+                selectedAge.value) /
+                1000) *
+              12
+            ).toFixed(2),
+          });
+        }
       });
-    }
+    selectedAge.valueChanges
+      .pipe(takeWhile(() => this.componentActive))
+      .subscribe((mode: number) => {
+
+
+        if (
+          selectedOccupation.value &&
+          selectedAge.value &&
+          selectedDeathCoverAmount.value
+        ) {
+          this.premiumCalculatorForm.patchValue({
+            deathPremium: (
+              ((selectedDeathCoverAmount.value *
+                selectedOccupation.value *
+                selectedAge.value) /
+                1000) *
+              12
+            ).toFixed(2),
+          });
+        }
+      });
+    selectedOccupation.valueChanges
+      .pipe(takeWhile(() => this.componentActive))
+      .subscribe((mode: Occupation) => {
+        if (
+          selectedOccupation.value &&
+          selectedAge.value &&
+          selectedDeathCoverAmount.value
+        ) {
+          this.premiumCalculatorForm.patchValue({
+            deathPremium: (
+              ((selectedDeathCoverAmount.value *
+                selectedOccupation.value *
+                selectedAge.value) /
+                1000) *
+              12
+            ).toFixed(2),
+          });
+        }
+      });
   }
-  // formControlValueChanged() {
-  //   let selectedOccupation = this.premiumCalculatorForm.get('occupation')!;
-  //   let selectedDeathCoverAmount = this.premiumCalculatorForm.get(
-  //     'deathCoverAmount'
-  //   )!;
-  //   let selectedAge = this.premiumCalculatorForm.get('age')!;
-  //   console.log('selectedOccupation', selectedOccupation);
-  //   console.log('selectedDeathCoverAmount', selectedDeathCoverAmount);
-  //   console.log('selectedAge', selectedAge);
-
-  //   if (
-  //     selectedOccupation != null &&
-  //     selectedDeathCoverAmount != null &&
-  //     selectedAge != null
-  //   ) {
-  //     selectedOccupation.valueChanges
-  //       .pipe(takeWhile(() => this.componentActive))
-  //       .subscribe((mode: Occupation) => {
-  //         console.log('selectedOccupation changed mode', mode);
-
-  //         this.premiumCalculatorForm.patchValue({
-  //           deathPremium:
-  //             ((+selectedDeathCoverAmount *
-  //               +selectedOccupation *
-  //               +selectedAge) /
-  //               1000) *
-  //             12,
-  //         });
-  //       });
-  //   }
-  // }
   submit() {
     this.submitted = true;
     if (this.premiumCalculatorForm.valid) {
