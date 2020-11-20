@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { Occupation } from './_models/occupation';
 import { Premimum } from './_models/premium';
 import { Rating } from './_models/rating';
+import { AppService } from './_services/app.service';
 import { getIsLoading } from './_state/app.state';
 
 describe('AppComponent', () => {
@@ -43,6 +44,8 @@ describe('AppComponent', () => {
   class FakeLoaderComponent {
     @Input() loading: boolean | undefined;
   }
+  let appService: AppService;
+
   let fixture: ComponentFixture<AppComponent>;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -59,9 +62,9 @@ describe('AppComponent', () => {
         { provide: MatSnackBar, useValue: mockSnackBar },
       ],
     }).compileComponents();
-
     store = TestBed.inject(MockStore);
     store.overrideSelector(getIsLoading, true);
+    appService = new AppService();
   });
 
   it('should create the app', () => {
@@ -70,12 +73,15 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
+  it('CalculateAge should calculate the age equals to 0 for today', () => {
+    expect(appService.CalculateAge(new Date())).toBe(0);
+  });
+
   it(`should have as title 'Premium Calculator'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app.title).toEqual('Premium Calculator');
   });
-
 
   describe('submit', () => {
     it('should not submit if form is not valid', () => {

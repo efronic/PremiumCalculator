@@ -41,29 +41,12 @@
               <input matInput formControlName="name" placeholder="Name" />
             </mat-form-field>
             <mat-form-field fxFlex="100" fxFlex.xs="100" appearance="outline">
-              <mat-label>Age</mat-label>
-              <mat-icon matPrefix>cake</mat-icon>
-              <input
-                type="number"
-                matInput
-                placeholder="Age"
-                formControlName="age"
-            /></mat-form-field>
-          </div>
-          <div
-            fxLayout="row"
-            fxLayout.md="column"
-            fxLayout.sm="column"
-            fxLayout.xs="column"
-            fxLayoutGap.lg="10px"
-            fxLayoutGap.xl="10px"
-          >
-            <mat-form-field fxFlex="100" fxFlex.xs="100" appearance="outline">
               <mat-label>Date of Birth</mat-label>
               <!-- <mat-icon matPrefix>date_range</mat-icon> -->
               <input
                 matInput
                 readonly="true"
+                [max]="maxDate"
                 [matDatepicker]="dobpicker"
                 placeholder="Date of Birth"
                 formControlName="dob"
@@ -74,6 +57,25 @@
               ></mat-datepicker-toggle>
               <mat-datepicker #dobpicker disabled="false"></mat-datepicker>
             </mat-form-field>
+          </div>
+          <div
+            fxLayout="row"
+            fxLayout.md="column"
+            fxLayout.sm="column"
+            fxLayout.xs="column"
+            fxLayoutGap.lg="10px"
+            fxLayoutGap.xl="10px"
+          >
+            <mat-form-field fxFlex="100" fxFlex.xs="100" appearance="outline">
+              <mat-label>Age</mat-label>
+              <mat-icon matPrefix>cake</mat-icon>
+              <input
+                type="number"
+                matInput
+                placeholder="Age"
+                formControlName="age"
+            /></mat-form-field>
+
             <mat-form-field id="applicant" fxFlex="100" appearance="outline">
               <mat-label>Sum Insured</mat-label>
               <mat-icon matPrefix>attach_money</mat-icon>
@@ -100,10 +102,7 @@
             >
               <mat-label>Occupation</mat-label>
               <mat-icon matPrefix>work</mat-icon>
-              <mat-select
-                formControlName="occupation"
-                placeholder="Occupation"
-              >
+              <mat-select formControlName="occupation" placeholder="Occupation">
                 <mat-option
                   *ngFor="let oc of occupations"
                   [value]="oc.occupationRating.ratingFactor"
@@ -117,9 +116,12 @@
               <mat-icon matPrefix>money</mat-icon>
               <input
                 matInput
+                readonly
                 placeholder="Death Premium"
                 formControlName="deathPremium"
-            /></mat-form-field>
+              />
+              
+            </mat-form-field>
           </div>
         </div>
       </mat-card-content>

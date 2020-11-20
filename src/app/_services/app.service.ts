@@ -34,4 +34,19 @@ export class AppService {
     // if an api was used to fetch the data
     return EMPTY;
   }
+  public CalculateAge(birthdate: Date): any {
+    if (birthdate) {
+      const today = new Date();
+      const birthDate = new Date(birthdate);
+      let age = today.getFullYear() - birthDate.getFullYear();
+
+      const m = today.getMonth() - birthDate.getMonth();
+
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+
+      return age;
+    }
+  }
 }
